@@ -1,0 +1,9 @@
+[
+  { "id": 1, "username": "test", "password": "test", "firstName": "Scarlett", "lastName": "Johansson", "online": false },
+  { "id": 2, "username": "user2", "password": "test", "firstName": "Robert", "lastName": "Downey Jr.", "online": false },
+  { "id": 3, "username": "user3", "password": "test", "firstName": "Chris", "lastName": "Evans", "online": false },
+  { "id": 4, "username": "user4", "password": "test", "firstName": "Mark", "lastName": "Ruffalo", "online": false },
+  { "id": 5, "username": "user5", "password": "test", "firstName": "Jeremy", "lastName": "Renner", "online": false },
+  { "id": 6, "username": "user6", "password": "test", "firstName": "Samuel", "lastName": "L. Jackson", "online": false },
+  { "id": 7, "username": "user7", "password": "test", "firstName": "Tom", "lastName": "Hiddleston", "online": false }
+]

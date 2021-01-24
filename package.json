@@ -2,6 +2,7 @@
   "name": "betworks-msg-app-server",
   "version": "1.0.0",
   "description": "messaging app backend services",
+  "author": "Clyde Hoang",
   "main": "server.js",
   "license": "ISC",
   "repository": {
@@ -10,9 +11,8 @@
   },
   "scripts": {
     "start": "node ./index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cross-env NODE_ENV=test jest --testTimeout=10000"
   },
-  "author": "Clyde Hoang",
   "dependencies": {
     "@types/node": "^14.14.22",
     "axios": "^0.21.1",
@@ -26,5 +26,8 @@
     "socket.io": "^3.1.0"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
+    "jest": "^26.6.3",
+    "supertest": "^6.1.1"
   }
 }

@@ -1,14 +1,19 @@
 const config = require('../config');
 const jwt = require('jsonwebtoken');
 
-// users hardcoded for simplicity, store in a db for production applications
-const users = [
-    { id: 1, username: 'test', password: 'test', firstName: 'Test', lastName: 'User' }
-];
+const fs = require('fs');
+let users = [];
+
+fs.readFile('src/models/json/users.json', (err, data) => {
+    if (err) throw err;
+    users = JSON.parse(data);
+});
 
 module.exports = {
     authenticate,
-    getAll
+    getAll,
+    getById,
+    getUserContacts
 };
 
 async function authenticate({ username, password }) {
@@ -29,9 +34,20 @@ async function getAll() {
     return users.map(u => omitPassword(u));
 }
 
-// helper functions
+async function getById(id) {
+    return omitPassword(users.find(x => x.id === +id));
+}
 
+// For now return all users that are not the current id
+async function getUserContacts(id) {
+    return users.filter(x => x.id !== +id).map(u => omitPassword(u));
+}
+
+// helper functions
 function omitPassword(user) {
-    const { password, ...userWithoutPassword } = user;
-    return userWithoutPassword;
+    if (user) {
+        const { password, ...userWithoutPassword } = user;
+        return userWithoutPassword;
+    }
+    return null;
 }

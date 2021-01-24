@@ -7,9 +7,9 @@ WORKDIR /app
 COPY . .
 RUN npm install
 
-# If you are building your code for production
-# RUN npm ci --only=production
-# Bundle app source
+# Set environment variables
+ENV PORT=4000
+ENV NODE_ENV=production
 
 EXPOSE 4000
 CMD ["node", "index.js"]

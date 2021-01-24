@@ -1,3 +1,5 @@
+const messageService = require('../services/message.service');
+
 module.exports = function (http) {
     const io = require("socket.io")(http, {
         cors: {
@@ -7,47 +9,27 @@ module.exports = function (http) {
     });
 
     io.on('connection', (socket) => {
-        console.log('user connected');
-
-        socket.on('username', (userName) => {
-
-            /*this.users.push({
-                id : socket.id,
-                userName : userName
-            });
-
-            let len = this.users.length;
-            len--;
-
-            this.io.emit('userList',this.users,this.users[len].id);*/
-        });
-
-        socket.on('getMsg', (data) => {
-            socket.broadcast.to(data.toid).emit('sendMsg',{
-                msg:data.msg,
-                name:data.name
-            });
-        });
+        console.log(`-- socket connection established for socket:${socket.id} --`);
 
         socket.on('new-message', (message) => {
             // listening to the topic
-            console.log("listening:" + message);
-
-            // sends messages to everyone on the server
-            io.emit('new-message', message);
-            console.log("emitting:" + message);
-            socket.broadcast.emit('new-message', message);
+            // TODO: add logger
+            console.log("received new message:" + JSON.stringify(message));
+            if (message && +message.to > 0) {
+                messageService.addNewMessage(message)
+                    .then(message => {
+                        // send message to recipient
+                        console.log(`sending msg from:${message.from} to:${message.to}`);
+                        io.emit(message.to.toString(), message);
+                    })
+                    .catch();
+            }
+            // socket.broadcast.emit('new-message', message);
         });
 
         socket.on('disconnect',()=>{
-            console.log(`*****disconnected`);
-            /*for(let i=0; i < this.users.length; i++){
-
-                if(this.users[i].id === socket.id){
-                    this.users.splice(i,1);
-                }
-            }
-            this.io.emit('exit',this.users);*/
+            // TODO: emit disconnection to users
+            console.log(`-- socket id=${socket.id} disconnected --`);
         });
     });
 };

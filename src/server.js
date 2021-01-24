@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // use JWT auth to secure the api
-app.use(jwt());
+//app.use(jwt());
 
 // setup server socket
 const socket = require('./sockets')(http);
