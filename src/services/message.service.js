@@ -1,12 +1,6 @@
 const path = require('path');
 const message_path = path.resolve(__dirname) + '/../models/json/messages.json';
 const fs = require('fs');
-let messages = [];
-
-fs.readFile(message_path, (err, data) => {
-    if (err) throw err;
-    messages = JSON.parse(data);
-});
 
 module.exports = {
     getAllMessages,
@@ -15,8 +9,16 @@ module.exports = {
     addNewMessage
 };
 
-async function getAllMessages() {
-    return (messages && messages.length > 0)? messages : [];
+function getAllMessages() {
+    return new Promise(function(resolve, reject) {
+        fs.readFile(message_path, (err, data) => {
+            if (err) reject(err);
+
+            let messages = JSON.parse(data);
+            messages = (messages && messages.length > 0)? messages : []
+            resolve(messages);
+        });
+    });
 }
 
 async function getMessagesForUserId(uid) {
